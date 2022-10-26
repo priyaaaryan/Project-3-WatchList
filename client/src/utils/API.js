@@ -29,8 +29,8 @@ export const loginUser = (userData) => {
   });
 };
 
-// save book data for a logged in user
-export const saveBook = (bookData, token) => {
+// save movie data for a logged in user
+export const saveMovie = (bookData, token) => {
   return fetch('/api/users', {
     method: 'PUT',
     headers: {
@@ -41,8 +41,8 @@ export const saveBook = (bookData, token) => {
   });
 };
 
-// remove saved book data for a logged in user
-export const deleteBook = (bookId, token) => {
+// remove saved movie data for a logged in user
+export const deleteMovie = (bookId, token) => {
   return fetch(`/api/users/books/${bookId}`, {
     method: 'DELETE',
     headers: {
@@ -53,20 +53,12 @@ export const deleteBook = (bookId, token) => {
 
 // make a search to google books api
 // https://www.googleapis.com/books/v1/volumes?q=harry+potter
-export const searchGoogleBooks = (query) => {
-  const axios= require('axios').default
-  const options = {
-  method: 'GET',
-  url: 'https://utelly-tv-shows-and-movies-availability-v1.p.rapidapi.com/lookup',
-  params: {term: query, country: 'ca'},
-  headers: {
-    'X-RapidAPI-Key': 'e2537df278mshaf4e97d3dfcc164p18537cjsn545080f81093',
-    'X-RapidAPI-Host': 'utelly-tv-shows-and-movies-availability-v1.p.rapidapi.com'
-  }
+const baseUrl = 'https://api.themoviedb.org/3/';
+            const api_key = '2b331b737fa1907712028caf08fca5d5';
+      
+export const searchMovies = (query) => {
+  return fetch(`${baseUrl}search/movie?api_key=${api_key}&query=${query}`);
 };
-
-
-return axios.request(options)
 
 };
 
