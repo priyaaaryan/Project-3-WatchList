@@ -47,5 +47,5 @@ class MovieList extends Component {
     }
 }
 
-export default MovieDisplay
+export default MovieList
 
