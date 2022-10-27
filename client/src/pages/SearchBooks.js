@@ -92,7 +92,7 @@ const SearchBooks = () => {
     <>
       <Jumbotron fluid className="text-light bg-dark">
         <Container>
-          <h1>Search for Books!</h1>
+          <h1>Search for Movies!</h1>
           <Form onSubmit={handleFormSubmit}>
             <Form.Row>
               <Col xs={12} md={8}>
@@ -119,7 +119,7 @@ const SearchBooks = () => {
         <h2>
           {searchedMovies.length
             ? `Viewing ${searchedMovies.length} results:`
-            : "Search for a book to begin"}
+            : "Search for a movie to begin"}
         </h2>
         <CardColumns>
           {searchedMovies.map((movie) => {
@@ -141,12 +141,12 @@ const SearchBooks = () => {
                         (savedMovieId) => savedMovieId === movie.id
                       )}
                       className="btn-block btn-info"
-                      onClick={() => handleSaveBook(movie.id)}
+                      onClick={() => handleSaveMovie(movie.id)}
                     >
                       {savedMovieIds?.some(
                         (savedMovieId) => savedMovieId === movie.id
                       )
-                        ? "This book has already been saved!"
+                        ? "This movie has already been saved!"
                         : "Save this Movie!"}
                     </Button>
                   )}
