@@ -9,11 +9,11 @@ import {
   CardColumns,
 } from "react-bootstrap";
 import { useMutation } from "@apollo/client";
-import { SAVE_BOOK } from "../utils/mutations";
+import { SAVE_MOVIE } from "../utils/mutations";
 
 import Auth from "../utils/auth";
 import { searchGoogleBooks } from "../utils/API";
-import { saveBookIds, getSavedBookIds } from "../utils/localStorage";
+import { saveMovieIds, getSavedMovieIds } from "../utils/localStorage";
 
 const SearchBooks = () => {
   // create state for holding returned google api data
@@ -22,12 +22,12 @@ const SearchBooks = () => {
   const [searchInput, setSearchInput] = useState("");
 
   // create state to hold saved bookId values
-  const [savedBookIds, setSavedBookIds] = useState(getSavedBookIds());
-  const [saveBook] = useMutation(SAVE_BOOK);
+  const [savedMovieIds, setSavedMovieIds] = useState(getSavedMovieIds());
+  const [saveMovie] = useMutation(SAVE_MOVIES);
   // set up useEffect hook to save `savedBookIds` list to localStorage on component unmount
   // learn more here: https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup
   useEffect(() => {
-    return () => saveBookIds(savedBookIds);
+    return () => saveMovieIds(savedMovieIds);
   });
 
   // create method to search for books and set state on form submit
@@ -61,10 +61,10 @@ const SearchBooks = () => {
   };
 
   // create function to handle saving a book to our database
-  const handleSaveBook = async (bookId) => {
+  const handleSaveMovie = async (moviekId) => {
     // find the book in `searchedMovies` state by the matching id
-    const bookToSave = searchedMovies.find((book) => book.bookId === bookId);
-    console.log(bookToSave);
+    const movieToSave = searchedMovies.find((movie) => movie.movieId === movieId);
+    console.log(movieToSave);
     // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
 
@@ -73,7 +73,7 @@ const SearchBooks = () => {
     }
 
     try {
-      const {response} = await saveBook({variables: {input:{...bookToSave}}}
+      const {response} = await saveBook({variables: {input:{...movieToSave}}}
       );
       console.log(response);
 
@@ -82,7 +82,7 @@ const SearchBooks = () => {
       // }
 
       // if book successfully saves to user's account, save book id to state
-      setSavedBookIds([...savedBookIds, bookToSave.bookId]);
+      setSavedBookIds([...savedMovieIds, movieToSave.movieId]);
     } catch (err) {
       console.error(err);
     }
@@ -92,7 +92,7 @@ const SearchBooks = () => {
     <>
       <Jumbotron fluid className="text-light bg-dark">
         <Container>
-          <h1>Search for Books!</h1>
+          <h1>Search for Movies!</h1>
           <Form onSubmit={handleFormSubmit}>
             <Form.Row>
               <Col xs={12} md={8}>
@@ -102,7 +102,7 @@ const SearchBooks = () => {
                   onChange={(e) => setSearchInput(e.target.value)}
                   type="text"
                   size="lg"
-                  placeholder="Search for a book"
+                  placeholder="Search for a movie"
                 />
               </Col>
               <Col xs={12} md={4}>
@@ -119,7 +119,7 @@ const SearchBooks = () => {
         <h2>
           {searchedMovies.length
             ? `Viewing ${searchedMovies.length} results:`
-            : "Search for a book to begin"}
+            : "Search for a movie to begin"}
         </h2>
         <CardColumns>
           {searchedMovies.map((movie) => {
@@ -137,16 +137,16 @@ const SearchBooks = () => {
                   
                   {Auth.loggedIn() && (
                     <Button
-                      disabled={savedBookIds?.some(
-                        (savedBookId) => savedBookId === movie.id
+                      disabled={savedMovieIds?.some(
+                        (savedMovieId) => savedMovieId === movie.id
                       )}
                       className="btn-block btn-info"
-                      onClick={() => handleSaveBook(movie.id)}
+                      onClick={() => handleSaveMovie(movie.id)}
                     >
-                      {savedBookIds?.some(
-                        (savedBookId) => savedBookId === movie.id
+                      {savedMovieIds?.some(
+                        (savedMovieId) => savedMovieId === movie.id
                       )
-                        ? "This book has already been saved!"
+                        ? "This movie has already been saved!"
                         : "Save this Movie!"}
                     </Button>
                   )}
