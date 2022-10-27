@@ -31,7 +31,7 @@ export const SAVE_MOVIE = gql`
       email
       movieCount
       savedMovies {
-        movieId
+        id
       }
     }
   }

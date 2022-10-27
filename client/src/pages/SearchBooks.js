@@ -46,14 +46,15 @@ const SearchBooks = () => {
       }
 
       const { results } = await response.json();
+      console.log(results);
 
-      const moviesData = results.map((movie) => ({
-        id: movie.id,
-        name: movie.name,
-        picture: movie.picture
-      }));
+      // const moviesData = results.map((movie) => ({
+      //   id: movie.id,
+      //   name: movie.name,
+      //   picture: movie.picture
+      // }));
 
-      setsearchedMovies(moviesData);
+      setsearchedMovies(results);
       setSearchInput("");
     } catch (err) {
       console.error(err);
@@ -61,9 +62,9 @@ const SearchBooks = () => {
   };
 
   // create function to handle saving a book to our database
-  const handleSaveBook = async (movieId) => {
+  const handleSaveMovie = async (movieId) => {
     // find the book in `searchedMovies` state by the matching id
-    const movieToSave = searchedMovies.find((movie) => movie.movieId === movieId);
+    const movieToSave = searchedMovies.find((movie) => movie.id === movieId);
     console.log(movieToSave);
     // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
@@ -125,16 +126,16 @@ const SearchBooks = () => {
           {searchedMovies.map((movie) => {
             return (
               <Card key={movie.id} border="dark">
-                {movie.picture ? (
+                {movie.poster_path ? (
                   <Card.Img
-                    src={movie.picture}
-                    alt={`The poster for ${movie.name}`}
+                    src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
+                    alt={`The poster for ${movie.title}`}
                     variant="top"
                   />
                 ) : null}
                 <Card.Body>
-                  <Card.Title>{movie.name}</Card.Title>
-                  
+                  <Card.Title>{movie.title}</Card.Title>
+                  <Card.Text>{movie.overview}</Card.Text>
                   {Auth.loggedIn() && (
                     <Button
                       disabled={savedMovieIds?.some(
