@@ -9,11 +9,11 @@ import {
   CardColumns,
 } from "react-bootstrap";
 import { useMutation } from "@apollo/client";
-import { SAVE_BOOK } from "../utils/mutations";
+import { SAVE_MOVIE } from "../utils/mutations";
 
 import Auth from "../utils/auth";
-import { searchGoogleBooks } from "../utils/API";
-import { saveBookIds, getSavedBookIds } from "../utils/localStorage";
+import { searchMovies } from "../utils/API";
+import { saveMovieIds, getSavedMovieIds } from "../utils/localStorage";
 
 const SearchBooks = () => {
   // create state for holding returned google api data
@@ -22,12 +22,12 @@ const SearchBooks = () => {
   const [searchInput, setSearchInput] = useState("");
 
   // create state to hold saved bookId values
-  const [savedBookIds, setSavedBookIds] = useState(getSavedBookIds());
-  const [saveBook] = useMutation(SAVE_BOOK);
+  const [savedMovieIds, setSavedMovieIds] = useState(getSavedMovieIds());
+  const [saveMovie] = useMutation(SAVE_MOVIE);
   // set up useEffect hook to save `savedBookIds` list to localStorage on component unmount
   // learn more here: https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup
   useEffect(() => {
-    return () => saveBookIds(savedBookIds);
+    return () => saveMovieIds(savedMovieIds);
   });
 
   // create method to search for books and set state on form submit
@@ -39,7 +39,7 @@ const SearchBooks = () => {
     }
 
     try {
-      const response = await searchGoogleBooks(searchInput);
+      const response = await searchMovies(searchInput);
 
       if (!response.ok) {
         throw new Error("something went wrong!");
@@ -61,10 +61,10 @@ const SearchBooks = () => {
   };
 
   // create function to handle saving a book to our database
-  const handleSaveBook = async (bookId) => {
+  const handleSaveBook = async (movieId) => {
     // find the book in `searchedMovies` state by the matching id
-    const bookToSave = searchedMovies.find((book) => book.bookId === bookId);
-    console.log(bookToSave);
+    const movieToSave = searchedMovies.find((movie) => movie.movieId === movieId);
+    console.log(movieToSave);
     // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
 
@@ -73,7 +73,7 @@ const SearchBooks = () => {
     }
 
     try {
-      const {response} = await saveBook({variables: {input:{...bookToSave}}}
+      const {response} = await saveMovie({variables: {input:{...movieToSave}}}
       );
       console.log(response);
 
@@ -82,7 +82,7 @@ const SearchBooks = () => {
       // }
 
       // if book successfully saves to user's account, save book id to state
-      setSavedBookIds([...savedBookIds, bookToSave.bookId]);
+      setSavedMovieIds([...savedMovieIds, movieToSave.movieId]);
     } catch (err) {
       console.error(err);
     }
@@ -102,7 +102,7 @@ const SearchBooks = () => {
                   onChange={(e) => setSearchInput(e.target.value)}
                   type="text"
                   size="lg"
-                  placeholder="Search for a book"
+                  placeholder="Search for a Movie"
                 />
               </Col>
               <Col xs={12} md={4}>
@@ -137,14 +137,14 @@ const SearchBooks = () => {
                   
                   {Auth.loggedIn() && (
                     <Button
-                      disabled={savedBookIds?.some(
-                        (savedBookId) => savedBookId === movie.id
+                      disabled={savedMovieIds?.some(
+                        (savedMovieId) => savedMovieId === movie.id
                       )}
                       className="btn-block btn-info"
                       onClick={() => handleSaveBook(movie.id)}
                     >
-                      {savedBookIds?.some(
-                        (savedBookId) => savedBookId === movie.id
+                      {savedMovieIds?.some(
+                        (savedMovieId) => savedMovieId === movie.id
                       )
                         ? "This book has already been saved!"
                         : "Save this Movie!"}

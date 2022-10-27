@@ -60,6 +60,5 @@ export const searchMovies = (query) => {
   return fetch(`${baseUrl}search/movie?api_key=${api_key}&query=${query}`);
 };
 
-};
 
 
