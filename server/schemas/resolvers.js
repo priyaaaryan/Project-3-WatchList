@@ -42,7 +42,7 @@ const resolvers = {
       return { token, user };
     },
 
-    savedMovie: async (parent, args, context) => {
+    saveMovie: async (parent, args, context) => {
       if (context.user) {
         console.log(context.user);
         console.log(args);

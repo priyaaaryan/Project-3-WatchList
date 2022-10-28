@@ -52,7 +52,17 @@ const SearchBooks = () => {
   useEffect(() => {
     return () => saveMovieIds(savedMovieIds);
   });
+  
 
+  const removeAdultMovies = (movies)=>{
+
+  return movies.filter((movie)=>{
+  return !movie.adult;
+
+  });
+  
+
+  }
   // create method to search for books and set state on form submit
   const handleFormSubmit = async (event) => {
     event.preventDefault();
@@ -62,22 +72,34 @@ const SearchBooks = () => {
     }
 
     try {
-      const response = await searchMovies(searchInput);
+      const response1 = await searchMovies(searchInput);
 
-      if (!response.ok) {
+      if (!response1.ok) {
         throw new Error("something went wrong!");
       }
 
-      const { results } = await response.json();
-      console.log(results);
+      const { results: results1 } = await response1.json();
+      console.log(results1);
+
+      const response2 = await searchMovies(searchInput,2);
+
+      if (!response2.ok) {
+        throw new Error("something went wrong!");
+      }
+
+      const { results: results2} = await response2.json();
+      console.log(results2);
+
+      const results = results1.concat(results2); 
+      const filteredResults = removeAdultMovies(results);
 
       // const moviesData = results.map((movie) => ({
       //   id: movie.id,
       //   name: movie.name,
       //   picture: movie.picture
       // }));
-
-      setsearchedMovies(results);
+      
+      setsearchedMovies(filteredResults);
       setSearchInput("");
     } catch (err) {
       console.error(err);
@@ -97,9 +119,19 @@ const SearchBooks = () => {
     }
 
     try {
-      const {response} = await saveMovie({variables: {input:{...movieToSave}}}
+      const {response} = await saveMovie({variables: {input:{
+        movieId:movieToSave.id,
+        title:movieToSave.title,
+        overview:movieToSave.overview, 
+        poster_path:movieToSave.poster_path,
+        popularity:movieToSave.popularity,
+        rating:movieToSave.vote_average,
+        releasedate:movieToSave.release_date
+
+        
+      }}}
       );
-      console.log(response);
+      console.log("response after saving movie: ",response);
 
       // if (!response.ok) {
       //   throw new Error("something went wrong!");
@@ -163,6 +195,9 @@ const SearchBooks = () => {
                 <Card.Body>
                   <Card.Title>{movie.title}</Card.Title>
                   <Card.Text>{movie.overview}</Card.Text>
+                  <Card.Text>Release Date {movie.release_date}</Card.Text>
+                  <Card.Text>Popularity {movie.popularity}</Card.Text>
+                  <Card.Text>Rating {movie.vote_average}</Card.Text>
                   {Auth.loggedIn() && (
                     <Button
                       disabled={savedMovieIds?.some(
