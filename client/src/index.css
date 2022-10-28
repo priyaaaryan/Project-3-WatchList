@@ -25,5 +25,17 @@ ul li {
   list-style: none;
 }
 
+.hero {
+  background-size: cover; 
+  background-repeat: no-repeat;
+  background-image:  linear-gradient(to right, rgba(46, 44, 44, 0.904) 150px, rgba(92, 89, 89, 0.904) 100%), url(https://cdn.wallpapersafari.com/69/71/mgiTNs.jpg);
+}
 
-
+.searchBox {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: white;
+}

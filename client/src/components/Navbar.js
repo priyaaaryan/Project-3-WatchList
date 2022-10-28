@@ -1,39 +1,46 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState , useEffect } from 'react';
+import { Link, useLocation} from 'react-router-dom';
 import { Navbar, Nav, Container, Modal, Tab } from 'react-bootstrap';
 import SignUpForm from './SignupForm';
 import LoginForm from './LoginForm';
+import SearchBooks from '../pages/SearchBooks';
+import "../image/nav.css"
 
 import Auth from '../utils/auth';
 
 const AppNavbar = () => {
   // set modal display state
   const [showModal, setShowModal] = useState(false);
-
   return (
     <>
-      <Navbar bg='dark' variant='dark' expand='lg'>
+      <Navbar bg='dark' variant='dark' expand='lg' class = "nav">
         <Container fluid>
           <Navbar.Brand as={Link} to='/'>
-            More Movies
+            MovieMasti
           </Navbar.Brand>
           <Navbar.Toggle aria-controls='navbar' />
           <Navbar.Collapse id='navbar'>
             <Nav className='ml-auto'>
-              <Nav.Link as={Link} to='/'>
-                Search For Movies
-              </Nav.Link>
+              <ul className=" navbar-nav mr-auto">        
+              <li className="nav-item ">
+                <Nav.Link as={Link} to='/SearchBooks'>
+                Search
+                </Nav.Link>
+                </li>
               {/* if user is logged in show saved books and logout */}
               {Auth.loggedIn() ? (
                 <>
                   <Nav.Link as={Link} to='/saved'>
-                    See Your Movies
+                    Watch List
                   </Nav.Link>
                   <Nav.Link onClick={Auth.logout}>Logout</Nav.Link>
                 </>
               ) : (
+                <li className='nav-item'>
                 <Nav.Link onClick={() => setShowModal(true)}>Login/Sign Up</Nav.Link>
+                </li>
               )}
+              </ul>
             </Nav>
           </Navbar.Collapse>
         </Container>

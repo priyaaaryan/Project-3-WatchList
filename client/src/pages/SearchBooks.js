@@ -15,6 +15,29 @@ import Auth from "../utils/auth";
 import { searchMovies } from "../utils/API";
 import { saveMovieIds, getSavedMovieIds } from "../utils/localStorage";
 
+
+const style = {
+  myForm: {
+      width: "70%",
+      margin: "50px"
+  }, 
+  myInput: {
+      borderTopLeftRadius: '20px',
+      borderRadius: '20px',
+      borderBottomLeftRadius: '20px'
+  },
+  myBtnRgt: {
+      width: '150px',
+      padding: '10px',
+      backgroundColor: '#ed145b',
+      borderRadius: '20px',
+      marginLeft: '20px',
+      cursor: 'pointer',
+      border: 'none'
+  }
+
+}
+
 const SearchBooks = () => {
   // create state for holding returned google api data
   const [searchedMovies, setsearchedMovies] = useState([]);
@@ -91,10 +114,12 @@ const SearchBooks = () => {
 
   return (
     <>
-      <Jumbotron fluid className="text-light bg-dark">
+      <Jumbotron fluid className="hero">
         <Container>
-          <h1>Search for Movies!</h1>
-          <Form onSubmit={handleFormSubmit}>
+          <div class = "searchBox">
+          <h1>Enter a Movie Name or TV Show</h1>
+          <p>Find millon movies and TV Shows. Explore Now</p>
+          <Form onSubmit={handleFormSubmit} style={style.myForm}>
             <Form.Row>
               <Col xs={12} md={8}>
                 <Form.Control
@@ -104,15 +129,17 @@ const SearchBooks = () => {
                   type="text"
                   size="lg"
                   placeholder="Search for a Movie"
+                  style={style.myInput}
                 />
               </Col>
               <Col xs={12} md={4}>
-                <Button type="submit" variant="success" size="lg">
-                  Submit Search
+                <Button type="submit" variant="success" size="lg"  bg-color="red" style={style.myBtnRgt}>
+                  Search
                 </Button>
               </Col>
             </Form.Row>
           </Form>
+          </div>
         </Container>
       </Jumbotron>
 
@@ -120,7 +147,7 @@ const SearchBooks = () => {
         <h2>
           {searchedMovies.length
             ? `Viewing ${searchedMovies.length} results:`
-            : "Search for a movie to begin"}
+            : " "}
         </h2>
         <CardColumns>
           {searchedMovies.map((movie) => {
