@@ -1,17 +1,29 @@
 body {
-  font-family: 'Rubik', sans-serif;
+  
+    margin: 0;
+    font-family: 'Karla', sans-serif;
+    /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif; */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-image: linear-gradient(   #0c0c0c 20%, #090a05);
+    color: white;  
+  
+  
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: 'Rubik Mono One', sans-serif;
+.navbar{
+  color: white;
 }
 
-.small {
-  font-weight: 300;
-  font-style: italic;
+.tabHeight{
+  min-height: 60vh;
 }
+
+ul li {
+  list-style: none;
+}
+
+
+
