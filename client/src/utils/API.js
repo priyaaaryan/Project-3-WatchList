@@ -55,6 +55,7 @@ export const deleteMovie = (bookId, token) => {
 // https://www.googleapis.com/books/v1/volumes?q=harry+potter
 const baseUrl = "https://api.themoviedb.org/3/";
 const api_key = "2b331b737fa1907712028caf08fca5d5";
+
 /*
 {
     "adult": false,
@@ -77,8 +78,8 @@ const api_key = "2b331b737fa1907712028caf08fca5d5";
 }
 */
 
-export const searchMovies = (query) => {
-  return fetch(`${baseUrl}search/movie?api_key=${api_key}&query=${query}`);
+export const searchMovies = (query,page=1) => {
+  return fetch(`${baseUrl}search/movie?api_key=${api_key}&query=${query}&page=${page}`);
 };
 
 
