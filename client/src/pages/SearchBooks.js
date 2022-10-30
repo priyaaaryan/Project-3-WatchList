@@ -14,6 +14,9 @@ import { SAVE_MOVIE } from "../utils/mutations";
 import Auth from "../utils/auth";
 import { searchMovies } from "../utils/API";
 import { saveMovieIds, getSavedMovieIds } from "../utils/localStorage";
+import { useParams } from "react-router-dom";
+
+
 
 
 const style = {
@@ -38,11 +41,17 @@ const style = {
 
 }
 
+
+
 const SearchBooks = () => {
+
+  const { id } = useParams();
   // create state for holding returned google api data
   const [searchedMovies, setsearchedMovies] = useState([]);
   // create state for holding our search field data
   const [searchInput, setSearchInput] = useState("");
+
+  const [ movieTrailer, setMovieTrailer ]= useState([]);
 
   // create state to hold saved bookId values
   const [savedMovieIds, setSavedMovieIds] = useState(getSavedMovieIds());
@@ -54,14 +63,14 @@ const SearchBooks = () => {
   });
   
 
+
+
   const removeAdultMovies = (movies)=>{
 
   return movies.filter((movie)=>{
   return !movie.adult;
 
   });
-  
-
   }
   // create method to search for books and set state on form submit
   const handleFormSubmit = async (event) => {
@@ -79,8 +88,9 @@ const SearchBooks = () => {
       }
 
       const { results: results1 } = await response1.json();
-      console.log(results1);
+      console.log("1", results1);
 
+      
       const response2 = await searchMovies(searchInput,2);
 
       if (!response2.ok) {
@@ -88,16 +98,10 @@ const SearchBooks = () => {
       }
 
       const { results: results2} = await response2.json();
-      console.log(results2);
+      console.log("2",results2);
 
       const results = results1.concat(results2); 
       const filteredResults = removeAdultMovies(results);
-
-      // const moviesData = results.map((movie) => ({
-      //   id: movie.id,
-      //   name: movie.name,
-      //   picture: movie.picture
-      // }));
       
       setsearchedMovies(filteredResults);
       setSearchInput("");
@@ -106,6 +110,14 @@ const SearchBooks = () => {
     }
   };
 
+
+  
+
+  //Watch Trailer
+
+  //const id1 = searchedMovies.id;
+
+  //console.log(id1);
   // create function to handle saving a book to our database
   const handleSaveMovie = async (movieId) => {
     // find the book in `searchedMovies` state by the matching id
@@ -143,6 +155,27 @@ const SearchBooks = () => {
       console.error(err);
     }
   };
+
+  
+ 
+
+  async function loadMovieDetails(){ 
+    const id = searchedMovies.find((movie) => movie.id === id);
+
+    
+    const apiTrailer = await fetch (`http://api.themoviedb.org/3/movie/${id}/videos?api_key=2b331b737fa1907712028caf08fca5d5`).then( result=>result.json());
+    
+
+    console.log("trailer",apiTrailer.result);
+    setMovieTrailer(apiTrailer.result);
+
+}
+
+
+useEffect(function(){
+  loadMovieDetails();
+},[])
+  
 
   return (
     <>
@@ -195,9 +228,18 @@ const SearchBooks = () => {
                 <Card.Body>
                   <Card.Title>{movie.title}</Card.Title>
                   <Card.Text>{movie.overview}</Card.Text>
-                  <Card.Text>Release Date {movie.release_date}</Card.Text>
-                  <Card.Text>Popularity {movie.popularity}</Card.Text>
-                  <Card.Text>Rating {movie.vote_average}</Card.Text>
+                  <Card.Text>Release Date :-  {movie.release_date}</Card.Text>
+                  <Card.Text>Popularity :-  {movie.popularity}</Card.Text>
+                  <Card.Text>Rating :- {movie.vote_average}</Card.Text>
+                  <Card.Text>
+                Trailers:-
+                
+                {movieTrailer !== undefined ? movieTrailer.slice(0,3).map(movie => 
+                    <div class="mr-4 mt-4">
+                        <iframe width="340" height="215" src={`https://www.youtube.com/embed/${movie.key}`} frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+                    </div> ): "Sorry Trailers cannot be Uploaded"} </Card.Text>
+                
+            
                   {Auth.loggedIn() && (
                     <Button
                       disabled={savedMovieIds?.some(

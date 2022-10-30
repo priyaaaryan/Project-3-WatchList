@@ -1,5 +1,5 @@
 import React from 'react';
-import QueueNav from '../components/QueueNav'
+import QueueNav from '../components/AfterLoginNav'
 
 const Queue = () => {
   
