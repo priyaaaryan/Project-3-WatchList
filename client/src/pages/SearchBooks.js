@@ -9,11 +9,10 @@ import {
   CardColumns,
 } from "react-bootstrap";
 import { useMutation } from "@apollo/client";
-import { SAVE_MOVIE } from "../utils/mutations";
-
 import Auth from "../utils/auth";
 import { searchMovies } from "../utils/API";
 import { saveMovieIds, getSavedMovieIds } from "../utils/localStorage";
+import { SAVE_MOVIE } from "../utils/mutations";
 import { useParams } from "react-router-dom";
 
 
@@ -131,19 +130,18 @@ const SearchBooks = () => {
     }
 
     try {
-      const {response} = await saveMovie({variables: {input:{
+     /* const {response} = await saveMovie({variables: {input:{
         movieId:movieToSave.id,
         title:movieToSave.title,
         overview:movieToSave.overview, 
         poster_path:movieToSave.poster_path,
         popularity:movieToSave.popularity,
         rating:movieToSave.vote_average,
-        releasedate:movieToSave.release_date
+        releasedate:movieToSave.release_date*/
 
-        
-      }}}
-      );
-      console.log("response after saving movie: ",response);
+        await saveMovie({variables: { input: movieToSave }});
+    
+      console.log("response after saving movie: ",movieToSave);
 
       // if (!response.ok) {
       //   throw new Error("something went wrong!");
@@ -160,14 +158,16 @@ const SearchBooks = () => {
  
 
   async function loadMovieDetails(){ 
-    const id = searchedMovies.find((movie) => movie.id === id);
+   /*const id = searchedMovies.find((movie) => movie.id === id);*/
 
-    
-    const apiTrailer = await fetch (`http://api.themoviedb.org/3/movie/${id}/videos?api_key=2b331b737fa1907712028caf08fca5d5`).then( result=>result.json());
-    
+    const id = [436270,43641 , 1040330, 640810 ,690369];
 
-    console.log("trailer",apiTrailer.result);
-    setMovieTrailer(apiTrailer.result);
+    console.log(id)
+     const url = "http://api.themoviedb.org/3/movie/"+id.toString()+"/videos?api_key=2b331b737fa1907712028caf08fca5d5";    
+    const apiTrailer = await fetch (url).then( result=>result.json());
+    console.log("trailer",apiTrailer);
+    setMovieTrailer(apiTrailer);
+  
 
 }
 
@@ -176,7 +176,13 @@ useEffect(function(){
   loadMovieDetails();
 },[])
   
-
+/*const Trailer = movieTrailer.map((movie)=>{
+  return(
+    <div class="mr-4 mt-4">
+                        <iframe width="340" height="215" src={`https://www.youtube.com/embed/${movie.key}`} frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+                    </div> )
+});
+*/
   return (
     <>
       <Jumbotron fluid className="hero">
@@ -233,11 +239,7 @@ useEffect(function(){
                   <Card.Text>Rating :- {movie.vote_average}</Card.Text>
                   <Card.Text>
                 Trailers:-
-                
-                {movieTrailer !== undefined ? movieTrailer.slice(0,3).map(movie => 
-                    <div class="mr-4 mt-4">
-                        <iframe width="340" height="215" src={`https://www.youtube.com/embed/${movie.key}`} frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
-                    </div> ): "Sorry Trailers cannot be Uploaded"} </Card.Text>
+                {"Sorry Trailers cannot be Uploaded"} </Card.Text>
                 
             
                   {Auth.loggedIn() && (

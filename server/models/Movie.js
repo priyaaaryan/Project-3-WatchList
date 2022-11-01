@@ -13,10 +13,26 @@ const movieSchema = new Schema({
     required: true,
   },
 
-  movie_id: {
+  movieId: {
     type: String,
     required: true,
   },
+  poster_path:{
+    type: String,
+    reuired: false,
+  },
+  popularity:{
+    type: String,
+    required: false,
+  },
+  rating: {
+    type: String,
+    required: false,
+  },
+  releasedate: {
+    type: Date,
+    required: false,
+  }
 });
 
 module.exports = movieSchema;
