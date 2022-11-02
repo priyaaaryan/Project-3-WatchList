@@ -1,6 +1,6 @@
-##Movie Masti
+## Movie Masti
 
-##Description
+## Description
 An application that allows users to search movies and find information about them. Coming Soon: Login and save your favorite movies and ones you want to watch!
 
 ##Technologies/Libraries Used
