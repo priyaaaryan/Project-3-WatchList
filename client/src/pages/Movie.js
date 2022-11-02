@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import MovieList from '../components/MovieList';
+import MovieDisplay from '../components/MovieDisplay';
 import $ from 'jquery'
 
 class Movie extends Component {
@@ -25,7 +25,7 @@ class Movie extends Component {
 
                     results.forEach((movie) => {
                         movie.poster_src = "https://image.tmdb.org/t/p/w300" + movie.poster_path
-                        const movieRow = <MovieList key={movie.id} movie={movie}/>
+                        const movieRow = <MovieDisplay key={movie.id} movie={movie}/>
                         movieRows.push(movieRow)
                     })
 

@@ -1,11 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import SearchBooks from './pages/SearchBooks';
-import SavedBooks from './pages/SavedBooks'
-import HomePage from './components/HomePage';
+import SavedBooks from './pages/SavedBooks';
 import Navbar from './components/Navbar';
-import Footer from './components/Footer';
-
+import HomePage from './components/HomePage';
 import {
   ApolloProvider,
   ApolloClient,
@@ -33,21 +31,18 @@ const client = new ApolloClient({
 function App() {
   return (
     <ApolloProvider client={client}>
-      <div className='App' >
     <Router>
+      <>
         <Navbar />
         <Switch>
-          <Route exact path='/' component={HomePage}/>
+          <Route exact path = '/' component={HomePage} />
           <Route exact path='/searchBooks' component={SearchBooks} />
           <Route exact path='/saved' component={SavedBooks} />
-          <Route exact path ='/login'/>
           <Route render={() => <h1 className='display-2'>Wrong page!</h1>} />
         </Switch>
-      <Footer />
-    </Router>
-    </div>
+      </>
+    </Router> 
     </ApolloProvider>
-  
   );
 }
 

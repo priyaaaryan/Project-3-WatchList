@@ -2,9 +2,6 @@ body {
   
     margin: 0;
     font-family: 'Karla', sans-serif;
-    /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-      sans-serif; */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background-image: linear-gradient(   #0c0c0c 20%, #090a05);
@@ -17,6 +14,18 @@ body {
   color: white;
 }
 
+.hero2 h1{
+  color: white;
+}
+
+.h1{
+  text-align: center;
+}
+
+.p {
+  text-align: center;
+}
+
 .tabHeight{
   min-height: 60vh;
 }
@@ -25,7 +34,13 @@ ul li {
   list-style: none;
 }
 
-.hero {
+.text-light {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: white;
   background-size: cover; 
   background-repeat: no-repeat;
   background-image:  linear-gradient(to right, rgba(46, 44, 44, 0.904) 150px, rgba(92, 89, 89, 0.904) 100%), url(https://cdn.wallpapersafari.com/69/71/mgiTNs.jpg);

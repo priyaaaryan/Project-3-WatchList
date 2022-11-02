@@ -24,34 +24,40 @@ export const ADD_USER = gql`
 `;
 //First we are declaring a mutation, in the mutation we will define the mutation that will receive the book information to save.
 export const SAVE_MOVIE = gql`
-  mutation SaveMovie($input: MovieInput!) {
+  mutation saveMovie($input: MovieInput!) {
     saveMovie(input: $input) {
       _id
-      username
-      email
-      movieCount
-      savedMovies {
-        movieId
-        overview
-        poster_path
-        title
-        popularity
-        release_date
-        vote_average
-      }
-    }
+       username
+       email
+       savedMovies {
+           movieId
+           overview
+           poster_path
+           title
+          popularity
+     release_date
+     vote_average
+       }
+   }
   }
 `;
 
 export const REMOVE_MOVIE = gql`
-  mutation RemoveMovie($removeMovieID: ID!) {
-    removeMovie(id: $removeMovieId) {
+  mutation removeMovie($movieId: ID!) {
+    removeMovie(movieId: $movieId) {
       _id
+      email  
       username
-      email
       movieCount
       savedMovies {
+        _id
         movieId
+        overview
+        popularity
+        poster_path
+        release_date
+        title
+        vote_average
       }
     }
   }

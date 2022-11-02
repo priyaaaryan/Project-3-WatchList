@@ -12,7 +12,7 @@ function Footer() {
     return (
         <div class="footer mt-5" style={footerStyle}>
             <p>(c) 2022 Popcorn and Movie</p>
-            <p>Created by: Prerana and Priya </p>
+            <p>Created by:  </p>
 
         </div>
     )
