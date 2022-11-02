@@ -121,7 +121,7 @@ const SearchBooks = () => {
   const handleSaveMovie = async (movieId) => {
     // find the book in `searchedMovies` state by the matching id
     const movieToSave = searchedMovies.find((movie) => movie.id === movieId);
-    console.log(movieToSave);
+    console.log("intial",movieToSave);
     // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
 
@@ -142,14 +142,14 @@ const SearchBooks = () => {
 
         //await saveMovie({variables: { input: movieToSave }});
     
-      console.log("response after saving movie: ",movieToSave);
+      console.log("response after saving movie: ",response);
 
        //if (!response.ok) {
        //throw new Error("something went wrong!");
       //}
 
       // if book successfully saves to user's account, save book id to state
-      setSavedMovieIds([...savedMovieIds, movieToSave.id]);
+      setSavedMovieIds([...savedMovieIds, movieToSave.id,response]);
     } catch (err) {
       console.error(err);
     }

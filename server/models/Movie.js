@@ -2,37 +2,34 @@ const { Schema } = require("mongoose");
 
 // Saved movies schema
 const movieSchema = new Schema({
-  title: [
-    {
-      type: String,
-      required: true,
-    },
-  ],
-  overview: {
-    type: String,
-    required: true,
-  },
-
   movieId: {
     type: String,
     required: true,
   },
-  poster_path:{
+  title: {
     type: String,
-    reuired: false,
+    required: true,
   },
-  popularity:{
+  overview: {
     type: String,
-    required: false,
+    required: true,
   },
-  rating: {
+  poster_path: {
     type: String,
-    required: false,
+    required: true,
   },
-  releasedate: {
-    type: Date,
-    required: false,
-  }
+  popularity: {
+    type: Number,
+    required: true,
+  },
+  release_date: {
+    type: String,
+    required: true,
+  },
+  vote_average: {
+    type: Number,
+    required: true,
+  },
 });
 
 module.exports = movieSchema;

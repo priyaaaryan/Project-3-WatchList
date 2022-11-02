@@ -12,12 +12,13 @@ const resolvers = {
     me: async (parent, args, context) => {
       if (context.user) {
         const userData = await User.findOne({ _id: context.user._id }).select(
-          '-__v -password')
-       
+          "-__v -password"
+        );
+
         return userData;
       }
       throw new AuthenticationError("Not logged in");
-    }
+    },
   },
   Mutation: {
     addUser: async (parent, args) => {
@@ -42,24 +43,27 @@ const resolvers = {
       return { token, user };
     },
 
-    saveMovie: async (parent, args, context) => {
+    saveMovie: async (parent, { input }, context) => {
       if (context.user) {
-        console.log(context.user);
-        console.log(args);
+        console.log("user: ", context.user);
+        //console.log("args: ", args);
+        console.log("input: ", input);
         const updatedUser = await User.findByIdAndUpdate(
           { _id: context.user._id },
-          { $addToSet: { savedMovie: args.input } },
+          { $addToSet: { savedMovies: input } },
           { new: true }
         );
+        console.log("updatedUser: ", updatedUser);
         return updatedUser;
       }
       throw new AuthenticationError("Please log in!");
     },
     removeMovie: async (parent, args, context) => {
+      console.log("args: ", args);
       if (context.user) {
         const updatedUser = await User.findOneAndUpdate(
           { _id: context.user._id },
-          { $pull: { savedMovie: { movie_id: args.movieId } } },
+          { $pull: { savedMovies: { movieId: args.movieId } } },
           { new: true }
         );
         return updatedUser;
