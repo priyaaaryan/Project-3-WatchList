@@ -130,25 +130,26 @@ const SearchBooks = () => {
     }
 
     try {
-     /* const {response} = await saveMovie({variables: {input:{
+     const {response} = await saveMovie({variables: {input:{
         movieId:movieToSave.id,
         title:movieToSave.title,
         overview:movieToSave.overview, 
         poster_path:movieToSave.poster_path,
         popularity:movieToSave.popularity,
         rating:movieToSave.vote_average,
-        releasedate:movieToSave.release_date*/
+        releasedate:movieToSave.release_date}}}
+     )
 
-        await saveMovie({variables: { input: movieToSave }});
+        //await saveMovie({variables: { input: movieToSave }});
     
       console.log("response after saving movie: ",movieToSave);
 
-      // if (!response.ok) {
-      //   throw new Error("something went wrong!");
-      // }
+       //if (!response.ok) {
+       //throw new Error("something went wrong!");
+      //}
 
       // if book successfully saves to user's account, save book id to state
-      setSavedMovieIds([...savedMovieIds, movieToSave.movieId]);
+      setSavedMovieIds([...savedMovieIds, movieToSave.id]);
     } catch (err) {
       console.error(err);
     }

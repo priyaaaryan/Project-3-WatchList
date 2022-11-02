@@ -15,25 +15,19 @@ import { GET_ME } from "../utils/queries";
 import { REMOVE_MOVIE } from "../utils/mutations";
 const SavedBooks = () => {
   // const [userData, setUserData] = useState({});
-
   // use this to determine if `useEffect()` hook needs to run again
   // const userDataLength = Object.keys(userData).length;
-
   // useEffect(() => {
   //   const getUserData = async () => {
   //     try {
   //       const token = Auth.loggedIn() ? Auth.getToken() : null;
-
   //       if (!token) {
   //         return false;
   //       }
-
   //       const response = await getMe(token);
-
   //       if (!response.ok) {
   //         throw new Error('something went wrong!');
   //       }
-
   //       const user = await response.json();
   //       setUserData(user);
   //     } catch (err) {
@@ -42,29 +36,21 @@ const SavedBooks = () => {
   //   };
   //   getUserData();
   // }, [userDataLength]);
-
   const { queryData } = useQuery(GET_ME);
-  const userData = queryData?.me || {};  
+  const userData = queryData?.me || {};
   const userDataLength = Object.keys(userData).length;
-
- 
   const [removeMovie] = useMutation(REMOVE_MOVIE);
-
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
   const handleDeleteBook = async (movieId) => {
     const token = Auth.loggedIn() ? Auth.getToken() : null;
-
     if (!token) {
       return false;
     }
-
     try {
        const{input}=await removeMovie({ variables: {movieId}});
-
       // if (!response.ok) {
       //   throw new Error("something went wrong!");
       // }
-
       // const updatedUser = await response.json();
       // setUserData(updatedUser);
       // upon success, remove book's id from localStorage
@@ -74,47 +60,47 @@ const SavedBooks = () => {
       console.error(err);
     }
   };
-
   // if data isn't here yet, say so
   if (!userDataLength) {
     return <h2>LOADING...</h2>;
   }
-
   return (
     <>
       <Jumbotron fluid className="text-light bg-dark">
         <Container>
-          <h1>Viewing saved books!</h1>
+          <h1>Viewing saved movies!</h1>
         </Container>
       </Jumbotron>
       <Container>
         <h2>
-          {userData.savedBooks.length
-            ? `Viewing ${userData.savedBooks.length} saved ${
-                userData.savedBooks.length === 1 ? "book" : "books"
+          {userData.savedMovies.length
+            ? `Viewing ${userData.savedMovies.length} saved ${
+                userData.savedMovies.length === 1 ? "movie" : "movies"
               }:`
-            : "You have no saved books!"}
+            : "You have no saved movies!"}
         </h2>
         <CardColumns>
-          {userData.savedBooks.map((book) => {
+          {userData.savedMovies.map((movie) => {
             return (
-              <Card key={book.bookId} border="dark">
-                {book.image ? (
+              <Card key={movie.id} border="dark">
+                {movie.poster_path ? (
                   <Card.Img
-                    src={book.image}
-                    alt={`The cover for ${book.title}`}
-                    variant="top"
+                  src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
+                  alt={`The poster for ${movie.title}`}
+                  variant="top"
                   />
                 ) : null}
                 <Card.Body>
-                  <Card.Title>{book.title}</Card.Title>
-                  <p className="small">Authors: {book.authors}</p>
-                  <Card.Text>{book.description}</Card.Text>
+                <Card.Title>{movie.title}</Card.Title>
+                  <Card.Text>{movie.overview}</Card.Text>
+                  <Card.Text>Release Date {movie.release_date}</Card.Text>
+                  <Card.Text>Popularity {movie.popularity}</Card.Text>
+                  <Card.Text>Rating {movie.vote_average}</Card.Text>
                   <Button
                     className="btn-block btn-danger"
-                    onClick={() => handleDeleteBook(book.bookId)}
+                    onClick={() => handleDeleteBook(movie.id)}
                   >
-                    Delete this Book!
+                    Delete this Movie!
                   </Button>
                 </Card.Body>
               </Card>
